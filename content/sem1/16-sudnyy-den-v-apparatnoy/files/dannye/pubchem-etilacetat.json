@@ -1,0 +1,13 @@
+{
+  "PropertyTable": {
+    "Properties": [
+      {
+        "CID": 8857,
+        "MolecularFormula": "C4H8O2",
+        "MolecularWeight": "88.11",
+        "CanonicalSMILES": "CCOC(=O)C",
+        "InChIKey": "XEKOWRVHYACXOJ-UHFFFAOYSA-N"
+      }
+    ]
+  }
+}

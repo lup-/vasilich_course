@@ -1,0 +1,27 @@
+{
+  "meta": {
+    "count": 15501,
+    "page": 1,
+    "per_page": 3
+  },
+  "results": [
+    {
+      "id": "https://openalex.org/W4308529594",
+      "display_name": "A solvent-free and scalable method to prepare alkali soluble soybean oil-based epoxy acrylic resin for photoresist application",
+      "doi": "https://doi.org/10.1016/j.indcrop.2022.115877",
+      "publication_year": 2022
+    },
+    {
+      "id": "https://openalex.org/W2078224833",
+      "display_name": "Influence of water soluble and insoluble plasticizers on the physical and mechanical properties of acrylic resin copolymers",
+      "doi": "https://doi.org/10.1016/0378-5173(94)90180-5",
+      "publication_year": 1994
+    },
+    {
+      "id": "https://openalex.org/W2966961410",
+      "display_name": "Multifunctionality in Epoxy Resins",
+      "doi": "https://doi.org/10.1080/15583724.2019.1650063",
+      "publication_year": 2019
+    }
+  ]
+}

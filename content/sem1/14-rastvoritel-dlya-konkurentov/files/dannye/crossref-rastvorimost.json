@@ -1,0 +1,21 @@
+{
+  "status": "ok",
+  "message-type": "work-list",
+  "message": {
+    "total-results": 556691,
+    "items": [
+      {
+        "DOI": "10.1016/j.supflu.2005.12.018",
+        "title": ["High-pressure viscosity and density of poly(methyl methacrylate) + acetone and poly(methyl methacrylate) + acetone + CO2 systems"]
+      },
+      {
+        "DOI": "10.1016/j.polymer.2008.02.005",
+        "title": ["High-pressure solution blending of poly(epsilon-caprolactone) with poly(methyl methacrylate) in acetone+carbon dioxide"]
+      },
+      {
+        "DOI": "10.1016/s0032-3861(98)00482-0",
+        "title": ["Elongational flow birefringence of poly(methyl methacrylate)/poly(vinylidene fluoride-co-hexafluoro acetone) blends"]
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Обёртка для подбора мемов: запускает pick_meme.py в виртуальном окружении .venv.
+# Команда (из корня репозитория):
+#   memes/pick_meme "запрос по смыслу" [--top N] [--json] ...
+set -euo pipefail
+
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PY="$HERE/.venv/bin/python"
+
+if [ ! -x "$PY" ]; then
+    echo "Нет окружения .venv. Установи его один раз:" >&2
+    echo "  python3 -m venv \"$HERE/.venv\" && \"$HERE/.venv/bin/pip\" install -r \"$HERE/requirements.txt\"" >&2
+    exit 1
+fi
+
+exec "$PY" "$HERE/pick_meme.py" "$@"

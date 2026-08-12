@@ -1,0 +1,5 @@
+pandas
+pyarrow
+pillow
+numpy
+fastembed>=0.7

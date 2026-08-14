@@ -177,7 +177,8 @@ class Embeddings(Scene):
 
     # --- 5. Вывод (35–44 с) --------------------------------------------------
     def final_message(self):
-        self.play(FadeOut(self.mobjects), run_time=0.4)
+        # В self.mobjects могут попадать разные VMobject-подтипы; безопаснее гасить по одному.
+        self.play(*[FadeOut(m) for m in self.mobjects], run_time=0.4)
 
         main = Text("БЛИЗКИЙ СМЫСЛ — БЛИЗКИЕ ВЕКТОРЫ", font_size=48,
                     color=PHOSPHOR, weight=BOLD).move_to(UP * 0.4)

@@ -155,7 +155,7 @@ class InjekciyaZashchita(Scene):
                      weight=BOLD).next_to(env, DOWN, buff=0.3)
         self.play(FadeIn(note3), run_time=0.8)
         self.wait(1.4)
-        self.play(FadeOut(self.mobjects), run_time=0.5)
+        self.play(*[FadeOut(m) for m in self.mobjects], run_time=0.5)
 
     # --- 5. Вывод (52–66 с) ---------------------------------------------------
     def final_message(self):

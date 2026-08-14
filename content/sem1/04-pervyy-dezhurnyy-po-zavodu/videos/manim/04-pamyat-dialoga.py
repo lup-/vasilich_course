@@ -138,7 +138,9 @@ class PamyatDialoga(Scene):
 
         # Вся история + вопрос 2 собираются в один запрос к модели
         req = VGroup(instr.copy(), q2.copy(), a1.copy())
-        req.sort(lambda m: (m.get_x(), m.get_y()))
+        # В Manim callback для sort часто получает не Mobject, а центр (numpy.ndarray).
+        # Сортируем по координатам центра: сначала по X, потом по Y.
+        req.sort(lambda p: (p[0], p[1]))
         req.move_to(model.get_center())
         label = Text("ЗАПРОС 2 = ИНСТРУКЦИЯ + ВОПРОС 1 + ОТВЕТ 1 + ВОПРОС 2",
                      font_size=26, color=PHOSPHOR, weight=BOLD)
@@ -244,7 +246,8 @@ class PamyatDialoga(Scene):
 
     # --- 6. Вывод (70–88 с) ------------------------------------------------
     def final_message(self):
-        self.play(FadeOut(self.mobjects), run_time=0.4)
+        # В `self.mobjects` могут попадать не-VMobject под-типы; безопаснее гасить по одному.
+        self.play(*[FadeOut(m) for m in self.mobjects], run_time=0.4)
 
         main = Text("ПАМЯТЬ = ИСТОРИЯ В ЗАПРОСЕ, НО ОКНО КОНЕЧНО", font_size=52,
                     color=PHOSPHOR, weight=BOLD).move_to(UP * 0.4)

@@ -130,9 +130,7 @@ class FormatyDannyh(Scene):
                 ']'
             ),
             language="json",
-            font_size=24,
             background="window",
-            corner_radius=0.1,
         )
         code.to_edge(LEFT, buff=1.2)
         self.play(FadeIn(code, shift=UP * 0.3), run_time=1.0)
@@ -177,7 +175,8 @@ class FormatyDannyh(Scene):
         tabs = VGroup(*[bubble(name, DUST, font_size=18)
                         for name in ["Остатки", "Поставки"]])
         tabs.arrange(RIGHT, buff=0.4).move_to(RIGHT * 2.6)
-        tabs[0].set_fill(PHOSPHOR, opacity=0.25)
+        # `bubble()` возвращает VGroup(rect, text) — подкрашиваем только прямоугольник.
+        tabs[0][0].set_fill(PHOSPHOR, opacity=0.25)
         self.play(FadeIn(tabs), run_time=0.8)
 
         note = Text("ЛИСТЫ · ФОРМУЛЫ · ЦВЕТА · СТИЛИ", font_size=26,

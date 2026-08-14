@@ -17,10 +17,10 @@
 ```bash
 # из папки занятия:
 cd videos/manim
-manim -r 1920,1080 -f 30 03-tokenizaciya.py Tokenizaciya
+manim -r 1920,1080 --fps 30 03-tokenizaciya.py Tokenizaciya
 ```
 
-Ролик выйдет примерно 30 секунд, 30 fps, разрешение 1920×1080. Отрендеренный файл — это то, что нужно
+Ролик выйдет примерно 105–110 секунд, 30 fps, разрешение 1920×1080. Отрендеренный файл — это то, что нужно
 загрузить на платформу как `videos/03-tokenizaciya.mp4` и указать в `video_url` слайда 3
 (`video_type: direct`).
 

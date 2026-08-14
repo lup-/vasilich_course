@@ -182,7 +182,7 @@ class VyzovFunkcii(Scene):
 
         ans = bubble("ПОРОШОК, СОДА, ЦЕМЕНТ, САХАР — ВСЁ ЕСТЬ", RUST, font_size=24)
         ans.next_to(model, DOWN, buff=0.4)
-        self.play(GrowArrow(arrow), FadeIn(ans), run_time=1.0)
+        self.play(FadeIn(ans), run_time=1.0)
         self.play(ans.animate.shift(UP * 0.25), run_time=0.6)
         self.play(ans.animate.shift(DOWN * 0.25), run_time=0.6)
 

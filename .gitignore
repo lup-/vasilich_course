@@ -1,3 +1,9 @@
 Learn_Prompting
 generative-ai-for-beginners
 learn-harness-engineering
+__pycache__
+
+# временные файлы рендеров Manim (SVG-тексты, кадры, партиалы) — не финальные
+**/videos/manim/media/
+**/videos/texts/
+**/videos/videos/

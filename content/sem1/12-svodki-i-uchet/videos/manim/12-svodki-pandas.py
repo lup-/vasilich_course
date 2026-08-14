@@ -84,18 +84,22 @@ class SvodkiPandas(Scene):
             ["мар", "Север", "Иванов", "глицерин", "54440"],
         ]
         rows, cols = len(data_rows) + 1, len(headers)
-        table = make_table(rows, cols, None)
-        # заполняем тексты
+        table = make_table(rows, cols, "")
+        # Важно: ячейка — это VGroup(rect, text).
+        # Мы НЕ заменяем ячейку целиком (иначе пропадают прямоугольники),
+        # а обновляем только дочерний текст: cell[1].
         for c, h in enumerate(headers):
-            t = Text(h, font="DejaVu Sans", font_size=20, color=INK, weight=BOLD)
-            t.move_to(table[0][c].get_center())
-            table[0][c] = t
+            text_mob = table[0][c][1]
+            new_text = Text(h, font="DejaVu Sans", font_size=20, color=INK, weight=BOLD)
+            new_text.move_to(text_mob.get_center())
+            text_mob.become(new_text)
+
         for r, drow in enumerate(data_rows, start=1):
             for c, val in enumerate(drow):
-                t = Text(val, font="DejaVu Sans", font_size=20, color=INK,
-                         weight=BOLD)
-                t.move_to(table[r][c].get_center())
-                table[r][c] = t
+                text_mob = table[r][c][1]
+                new_text = Text(val, font="DejaVu Sans", font_size=20, color=INK, weight=BOLD)
+                new_text.move_to(text_mob.get_center())
+                text_mob.become(new_text)
         table.scale(0.9).move_to(ORIGIN)
         self.play(FadeIn(table), run_time=1.0)
         self.wait(1.5)
@@ -154,14 +158,16 @@ class SvodkiPandas(Scene):
 
         # пропуск: одна ячейка «пустая» мигает ржавым и заполняется нулём
         empty_cell = self.table[1][4]
+        empty_rect = empty_cell[0]  # прямоугольник ячейки
         for _ in range(3):
-            self.play(empty_cell.animate.set_fill(RUST, opacity=0.6),
+            self.play(empty_rect.animate.set_fill(RUST, opacity=0.6),
                       run_time=0.25)
-            self.play(empty_cell.animate.set_fill(BEIGE, opacity=1.0),
+            self.play(empty_rect.animate.set_fill(BEIGE, opacity=1.0),
                       run_time=0.25)
-        zero = Text("0", font="DejaVu Sans", font_size=20, color=INK, weight=BOLD)
-        zero.move_to(empty_cell.get_center())
-        self.play(FadeIn(zero), run_time=0.4)
+        zero_text = empty_cell[1]
+        new_zero = Text("0", font="DejaVu Sans", font_size=20, color=INK, weight=BOLD)
+        new_zero.move_to(zero_text.get_center())
+        self.play(ReplacementTransform(zero_text, new_zero), run_time=0.4)
         miss_note = Text("ПРОПУСКИ В СУММЕ → НУЛЕМ", font_size=24,
                          color=BEIGE, weight=BOLD)
         miss_note.next_to(dup_note, DOWN, buff=0.5)
@@ -178,8 +184,8 @@ class SvodkiPandas(Scene):
 
         keep_regions = ["Север"]
         for r in range(1, len(self.table)):
-            cell_region = self.table[r][1]
-            region = cell_region.text if isinstance(cell_region, Text) else ""
+            # ячейка таблицы: VGroup(rect, text) => читаем текст как cell[1].text
+            region = self.table[r][1][1].text
             if region not in keep_regions:
                 self.play(self.table[r].animate.set_opacity(0.18), run_time=0.4)
         self.wait(0.8)

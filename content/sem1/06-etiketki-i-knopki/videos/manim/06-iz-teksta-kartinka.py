@@ -112,17 +112,28 @@ class IzTekstaKartinka(Scene):
         mechok.move_to(center + RIGHT * 0.1 + UP * 0.1)
         self.play(Create(mechok), run_time=1.0)
 
+        # Важно: анимации должны быть переданы в `self.play`, иначе они не проиграются.
+        targets = []
         for d in cloud:
-            d.animate.move_to(center + RIGHT * 0.1 + UP * 0.1
-                              + RIGHT * random.uniform(-1.1, 1.1)
-                              + UP * random.uniform(-0.7, 0.7)).set_fill(DUST)
-        self.play(*[d.animate.set_fill(OLIVE) for d in cloud[:50]], run_time=1.2)
-        self.play(*[d.animate.set_fill(DUST) for d in cloud[50:]], run_time=1.2)
+            x = random.uniform(-1.1, 1.1)
+            y = random.uniform(-0.7, 0.7)
+            target = (
+                center + RIGHT * 0.1 + UP * 0.1
+                + RIGHT * x + UP * y
+            )
+            targets.append((d, target))
+
+        self.play(
+            *[d.animate.move_to(target).set_fill(DUST) for d, target in targets],
+            run_time=1.3,
+        )
+        self.play(*[d.animate.set_fill(OLIVE) for d in cloud[:50]], run_time=1.0)
+        self.play(*[d.animate.set_fill(DUST) for d in cloud[50:]], run_time=1.0)
 
         note = Text("ВНУТРИ: ШУМ → КАРТИНКА (УПРОЩЕНИЕ)", font_size=30,
                     color=PHOSPHOR, weight=BOLD).to_edge(DOWN, buff=0.5)
         self.play(FadeIn(note), run_time=0.8)
-        self.wait(7.3)
+        self.wait(3.0)
 
         self.play(FadeOut(cloud), FadeOut(mechok), FadeOut(shum),
                   FadeOut(note), FadeOut(inside), FadeOut(model),
@@ -186,7 +197,7 @@ class IzTekstaKartinka(Scene):
     def final_message(self):
         main = Text("ИЗ ТЕКСТА — КАРТИНКА", font_size=46,
                     color=PHOSPHOR, weight=BOLD).move_to(UP * 0.5)
-        sub = Text("МЕТА-ПРОМТ ЗАДАЁТ ГРАНИЦЫ: ОПАСНОЕ НЕ РИСУЕМ", font_size=30,
+        sub = Text("МЕТА-ПРОМПТ ЗАДАЁТ ГРАНИЦЫ: ОПАСНОЕ НЕ РИСУЕМ", font_size=30,
                    color=BEIGE, weight=BOLD).next_to(main, DOWN, buff=0.8)
         self.play(FadeIn(main), run_time=1.0)
         self.play(FadeIn(sub), run_time=1.0)

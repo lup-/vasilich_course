@@ -161,7 +161,7 @@ class RagArkhyv(Scene):
                        color=PHOSPHOR, stroke_width=6, buff=0.15)
         self.play(GrowArrow(arrow2), FadeIn(ans), run_time=1.0)
 
-        note = Text("RAG: ВОПРОС + ДОКУМЕНТЫ → ОТВЕТ ПО ИСТОЧНИКАМ", font_size=30,
+        note = Text("RAG (Retrieval-Augmented Generation): ВОПРОС + ДОКУМЕНТЫ → ОТВЕТ ПО ИСТОЧНИКАМ", font_size=30,
                     color=PHOSPHOR, weight=BOLD).to_edge(DOWN, buff=0.5)
         self.play(FadeIn(note), run_time=0.8)
         note2 = Text("НЕ ВЫДУМЫВАЕТ — ЧИТАЕТ АРХИВ", font_size=26, color=BEIGE,
@@ -192,7 +192,7 @@ class RagArkhyv(Scene):
 
         ans = bubble("МЕШКОВ СОРОК, НЕБОСЬ", RUST, font_size=28)
         ans.next_to(model, DOWN, buff=0.4)
-        self.play(GrowArrow(arrow), FadeIn(ans), run_time=1.0)
+        self.play(FadeIn(ans), run_time=1.0)
         self.play(ans.animate.shift(UP * 0.25), run_time=0.6)
         self.play(ans.animate.shift(DOWN * 0.25), run_time=0.6)
 
@@ -206,7 +206,7 @@ class RagArkhyv(Scene):
         check.next_to(note, UP, buff=0.15)
         self.play(FadeIn(check), run_time=0.8)
         self.wait(1.2)
-        self.play(FadeOut(self.mobjects), run_time=0.4)
+        self.play(*[FadeOut(m) for m in self.mobjects], run_time=0.4)
 
     # --- 6. Вывод (60–74 с) --------------------------------------------------
     def final_message(self):

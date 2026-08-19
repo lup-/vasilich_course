@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/sem1/03-ne-halturit-na-zavode/comic.md",
+                "file": "content/sem1/05-poisk-po-arhivam/slides-plan.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "comic"
+              "title": "slides-plan"
             }
           }
         ]
@@ -187,33 +187,35 @@
       "bases:Создать новую базу": false
     }
   },
-  "active": "8039f70b03029f87",
+  "active": "6b79dca0af2b4354",
   "lastOpenFiles": [
-    "media/texts/220b493aef1e3725_.svg",
-    "media/texts/c3fd4effbdfee2c9_.svg",
-    "media/texts/c3fd4effbdfee2c9.svg",
-    "media/texts/d5374a3a078df723.svg",
-    "media/texts/bd8e4d3ad0969102_.svg",
-    "media/texts/bd8e4d3ad0969102.svg",
-    "media/texts/e66a1703e5c324b0.svg",
-    "media/texts/af56839567a04817_.svg",
-    "media/texts/af56839567a04817.svg",
-    "media/texts/88c2d317c00bf9f1.svg",
-    "media/texts/c85d476a18d5f9b2.svg",
-    "media/texts",
-    "media",
-    "content/sem1/03-ne-halturit-na-zavode/slide-01",
+    "content/sem1/05-poisk-po-arhivam/videos/manim/media/videos/05-rag/1080p30/partial_movie_files/RagArkhyv/partial_movie_file_list.txt",
+    "content/sem1/05-poisk-po-arhivam/videos/manim/media/videos/05-rag/1080p30/partial_movie_files/RagArkhyv/2732334906_2640967714_3330393982.mp4",
+    "content/sem1/05-poisk-po-arhivam/videos/manim/media/videos/05-rag/1080p30/partial_movie_files/RagArkhyv/2732334906_3060555795_2903895030.mp4",
+    "content/sem1/05-poisk-po-arhivam/videos/manim/media/videos/05-rag/1080p30/partial_movie_files/RagArkhyv/2732334906_2456628977_4155196032.mp4",
+    "content/sem1/05-poisk-po-arhivam/videos/manim/media/videos/05-rag/1080p30/partial_movie_files/RagArkhyv/2732334906_3957730938_3348145968.mp4",
+    "content/sem1/05-poisk-po-arhivam/videos/manim/media/texts/7e0ac27313b2766a.svg",
+    "content/sem1/05-poisk-po-arhivam/videos/manim/media/texts/ccc2ccaa3b5e3622.svg",
+    "content/sem1/05-poisk-po-arhivam/videos/manim/media/texts/ad426a343ac8fe6e.svg",
+    "content/sem1/05-poisk-po-arhivam/videos/manim/media/texts/5a7feda342c0a589.svg",
+    "content/sem1/05-poisk-po-arhivam/videos/manim/media/texts/5cc5197f5403c5d7.svg",
+    "content/sem1/05-poisk-po-arhivam/videos/manim/media/texts/fb23837a71634e08.svg",
+    "content/sem1/05-poisk-po-arhivam/videos/manim/media/texts/4f6badcbfa9fa4b9_.svg",
+    "content/sem1/05-poisk-po-arhivam/videos/manim/media/texts/4f6badcbfa9fa4b9.svg",
+    "content/sem1/05-poisk-po-arhivam/videos/manim/media/texts/178955190d4e505e.svg",
+    "content/sem1/05-poisk-po-arhivam/videos/manim/media/texts/84fe2516f710514c.svg",
+    "content/sem1/05-poisk-po-arhivam/videos/manim/media/videos/05-rag/1080p30/partial_movie_files/RagArkhyv/2732334906_3121527020_965431396.mp4",
+    "content/sem1/05-poisk-po-arhivam/videos/manim/media/videos/05-rag/1080p30/partial_movie_files/RagArkhyv/2732334906_221990701_1012572822.mp4",
+    "content/sem1/05-poisk-po-arhivam/videos/manim/media/videos/05-rag/1080p30/partial_movie_files/RagArkhyv/2732334906_4074778073_1714362056.mp4",
+    "content/sem1/05-poisk-po-arhivam/videos/manim/media/videos/05-rag/1080p30/partial_movie_files/RagArkhyv/1157029569_198996392_1232341783.mp4",
+    "content/sem1/05-poisk-po-arhivam/videos/manim/media/videos/05-rag/1080p30/partial_movie_files/RagArkhyv/1157029569_2248539205_2654945771.mp4",
+    "content/sem1/05-poisk-po-arhivam/videos/manim/media/videos/05-rag/1080p30/partial_movie_files/RagArkhyv/1157029569_1986878745_1942661462.mp4",
+    "content/sem1/04-pervyy-dezhurnyy-po-zavodu/comic.md",
+    "content/sem1/03-ne-halturit-na-zavode/comic.md",
+    "content/sem1/05-poisk-po-arhivam/slides-plan.md",
     "content/sem1/02-chto-u-nee-vnutri/comic.md",
-    "content/sem1/02-chto-u-nee-vnutri/slide-16",
     "content/sem1/04-pervyy-dezhurnyy-po-zavodu/slides-plan.md",
     "content/_shared/video-guide.md",
-    "content/sem1/02-chto-u-nee-vnutri/videos/03-tokenizaciya.mp4",
-    "content/sem1/03-ne-halturit-na-zavode/comic.md",
-    "content/sem1/03-ne-halturit-na-zavode/videos/manim/media/videos/03-gallyucinaciyu/1080p30/partial_movie_files/Gallyucinaciyu/3453252822_1772344269_1337918994.mp4",
-    "content/sem1/03-ne-halturit-na-zavode/videos/manim/media/videos/03-gallyucinaciyu/1080p30/partial_movie_files/Gallyucinaciyu/3453252822_3873173991_833869395.mp4",
-    "content/sem1/03-ne-halturit-na-zavode/videos/manim/media/videos/03-gallyucinaciyu/1080p30/partial_movie_files/Gallyucinaciyu/3453252822_2871357938_3518775085.mp4",
-    "content/sem1/03-ne-halturit-na-zavode/videos/manim/media/videos/03-gallyucinaciyu/1080p30/partial_movie_files/Gallyucinaciyu/3453252822_193899604_3808047179.mp4",
-    "content/sem1/03-ne-halturit-na-zavode/videos/manim/media/videos/03-gallyucinaciyu/1080p30/partial_movie_files/Gallyucinaciyu/3453252822_1804077783_378871439.mp4",
     "content/sem1/03-ne-halturit-na-zavode/slides-plan.md",
     "content/sem1/03-ne-halturit-na-zavode/links.md",
     "content/sem1/03-ne-halturit-na-zavode/files/pamyatka-kogda-ne-verit.md",
@@ -233,8 +235,6 @@
     "content/sem1/14-rastvoritel-dlya-konkurentov/files/zadanie-rastvoritel.md",
     "content/sem1/14-rastvoritel-dlya-konkurentov/files/quiz-zhivye-dannye.md",
     "content/sem1/14-rastvoritel-dlya-konkurentov/files/pamyatka-zhivye-dannye.md",
-    "content/sem1/14-rastvoritel-dlya-konkurentov/slides-plan.md",
-    "content/sem1/14-rastvoritel-dlya-konkurentov/links.md",
     "vasilych/Без названия.canvas"
   ]
 }

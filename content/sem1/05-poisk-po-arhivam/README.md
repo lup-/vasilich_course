@@ -9,17 +9,17 @@
 
 ## Содержимое папки
 
-- `slides-plan.md` — план слайдов занятия (17 слайдов, без `welcome`/`congrats`; миссия, сводная таблица,
-  детали по слайдам, планы трёх видеороликов, доп. информация);
-- `comic.md` — сценарий комикса: сцена 1 (слайд 1) и сцена 2 (слайд 17);
+- `slides-plan.md` — план слайдов занятия (15 слайдов, без `welcome`/`congrats`; миссия, сводная таблица,
+  детали по слайдам, планы двух видеороликов, доп. информация);
+- `comic.md` — сценарий комикса: сцена 1 (слайд 1) и сцена 2 (слайд 15);
 - `files/` — корпус `dokumenty-arkhiva/` (6 документов) + `dokumenty-arkhiva.zip`, памятка
   `pamyatka-poisk-po-arhivu.md`, задание `zadanie-poisk-po-arhivu.md`, квиз `quiz-rag.md`,
   системный промпт `system-prompt-vasylich-57.md`;
 - `links.md` — внешние ссылки и источники (лекции, assignments, документация);
 - `videos/` — README и программы-сценарии трёх технических роликов Manim:
-  `manim/05-embeddings.py` (слайд 3), `manim/05-chisla.py` (слайд 5) и `manim/05-rag.py` (слайд 10).
+  `manim/05-embeddings-train.py` (слайд 3) и `manim/05-rag.py` (слайд 8).
   Рендер — командой из `videos/README.md` (по `_shared/video-guide.md`), файлы-результаты:
-  `videos/05-embeddings.mp4`, `videos/05-chisla.mp4`, `videos/05-rag.mp4`.
+  `videos/05-embeddings-train.mp4` и `videos/05-rag.mp4`.
 
 > Модели и их проверка — в общих правилах `AGENTS.md` (раздел «Бесплатные OpenRouter-модели»); отдельные
 > «примечания по моделям» в занятиях не пишем.

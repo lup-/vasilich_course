@@ -3,9 +3,9 @@
 ## Теория (исходники курса — `prepared/`)
 
 - `prepared/course-01-generative-ai/lectures/08-building-search-applications.md` — поисковые приложения:
-  семантический поиск, текстовые эмбеддинги, индекс эмбеддингов, косинусное сходство (база слайдов 2–6).
+  семантический поиск, текстовые эмбеддинги, индекс эмбеддингов, косинусное сходство (база слайдов 2–4).
 - `prepared/course-01-generative-ai/lectures/15-rag-and-vector-databases.md` — RAG и векторные базы:
-  база знаний, чанки, извлечение, расширенная генерация, зачем RAG (база слайдов 10–12).
+  база знаний, чанки, извлечение, расширенная генерация, зачем RAG (база слайдов 8–10).
 - `prepared/course-01-generative-ai/assignments/08-building-search-applications/` — практика по лекции 08:
   `oai-solution.ipynb` / `oai-assignment.ipynb` (семантический поиск по индексу эмбеддингов).
 - `prepared/course-01-generative-ai/assignments/15-rag-and-vector-databases/` — практика по лекции 15:
@@ -30,7 +30,7 @@
   for Knowledge-Intensive NLP Tasks».
 - https://en.wikipedia.org/wiki/Retrieval-augmented_generation — обзор RAG (схема, применение).
 
-## Готовые RAG-сервисы по документам (слайд 12)
+## Готовые RAG-сервисы по документам (слайд 10)
 
 > Перед использованием проверяем, что ссылки живые и бесплатные тарифы на месте.
 

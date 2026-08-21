@@ -8,3 +8,5 @@ __pycache__
 **/videos/texts/
 **/videos/videos/
 media/
+*.pyc
+.env

@@ -4,12 +4,13 @@
 
 - `prepared/course-01-generative-ai/lectures/09-building-image-applications.md` — приложения для
   генерации изображений: промпты, размер, температура, мета-промты (база слайдов 2–6).
-- `prepared/course-01-generative-ai/lectures/11-integrating-with-function-calling.md` — вызов функций:
-  tools, описание функции, цикл вызова, токены и приватность (база слайдов 7–11, 14–15).
+- `prepared/course-01-generative-ai/lectures/11-integrating-with-function-calling.md` — интеграция
+  с внешними инструментами (в лекции — function calling): tools, описание инструмента, цикл вызова,
+  токены и приватность (база слайдов 7–11, 14–15).
 - `prepared/course-01-generative-ai/assignments/09-building-image-applications/` — практика по лекции 09
   (генерация изображений по промптам).
 - `prepared/course-01-generative-ai/assignments/11-integrating-with-function-calling/` — практика
-  по лекции 11 (вызов функций через API).
+  по лекции 11 (вызов инструментов через API).
 
 ## Документация и инструменты
 
@@ -19,7 +20,7 @@
 - https://openrouter.ai/docs — документация OpenRouter API (вызов моделей из кода, ключ в `.env`,
   function calling).
 - https://openrouter.ai/docs/features/structured-outputs — structured outputs и tools (как передавать
-  модели описание функции).
+  модели описание инструмента).
 - https://opencode.ai/docs/ — документация opencode (установка, первый запуск — см. доп. инфо
   `opencode-ustanovka`).
 
@@ -34,7 +35,7 @@
 
 ## Function calling (лекция 11)
 
-- https://platform.openai.com/docs/guides/function-calling — гайд по вызову функций (общий принцип:
+- https://platform.openai.com/docs/guides/function-calling — гайд по вызову инструментов (общий принцип:
   описание инструмента, решение модели, выполнение программой, ответ модели).
 - https://en.wikipedia.org/wiki/Function_calling — обзор (для быстрого введения в тему).
 

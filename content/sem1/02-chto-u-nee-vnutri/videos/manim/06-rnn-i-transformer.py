@@ -48,22 +48,37 @@
 Заголовок: ПРОБЛЕМЫ АРХИТЕКТУРЫ LSTM. Первый пункт зачёркнут линией и притушен (проблема решена),
 второй остаётся: 2. Медленная последовательная обработка слов.
 Затем переход к сцене про трансформеры.
-Сцена 2: Архитектура Трансформера (Спасение ситуации)
-Текст на экране: ТРАНСФОРМЕР: МЕХАНИЗМ ВНИМАНИЯ (ATTENTION)
+Сцена 2: Трансформер — круг внимания и эмбеддинг контекста
+Текст на экране: ТРАНСФОРМЕР: МЕХАНИЗМ ВНИМАНИЯ.
 Визуальный ряд:
-Появляется единый общий зелёный блок [БЛОК SELF-ATTENTION] — он охватывает ВСЕ токены сразу.
-Те же токены [КЛЕЙ], [ДЛЯ], [ЦЕХА], [ИСПОРЧЕН], [.], [НУЖНО], [ВЫКИНУТЬ], [ ? ] расставлены ПО КРУГУ внутри блока,
-каждый подписан в своём боксе.
-Между КАЖДОЙ парой токенов тянутся тонкие бледно-зелёные линии связи — каждое слово видит каждое (все пары, 28 рёбер).
-Анимация Внимания: Начинаем генерировать ответ для слота [ ? ]. Выделяются две дуги:
-тоненькая бледно-серая дуга к слову [ЦЕХА] и жирная, пульсирующая кислотно-зеленая дуга к слову [КЛЕЙ].
-(Модель понимает: испорчен именно клей, значит выкидываем его).
-Генерация результата: В пустом слоте уверенно печатается зелёный токен: [КЛЕЙ].
-Надпись: КАЖДОЕ СЛОВО ВИДИТ ВСЕ ОСТАЛЬНЫЕ. КОНТЕКСТ НЕ ТЕРЯЕТСЯ.
-Сцена 3: Итог
-Визуальный ряд:
-Зелёные дуги связей масштабируются, заполняя экран красивой нейросетевой паутиной.
-Финальный текст в центре: НА ТРАНСФОРМЕРАХ СТОЯТ ВСЕ СОВРЕМЕННЫЕ ЯЗЫКОВЫЕ МОДЕЛИ (LLM).
+Внизу, справа налево, едут токены предложения (как в сценах RNN/LSTM): лишние слова
+уходят за левый край экрана. Примерно на середине пути из токенов начинают отделяться
+копии слов (мелким шрифтом, как чипы; в ленте остаются) и по ОБЩЕЙ спиральной
+траектории — сначала влево, затем по часовой стрелке с закруткой вокруг центра —
+занимают шесть слотов: «поездом», с одинаковой скоростью; КЛЕЙ проходит по
+окружности дальше всех (почти полный оборот), ВЫКИНУТЬ сходит раньше прочих.
+ЦЕХА встаёт ровно справа («правая точка»-хаб). Рядом с каждым словом появляется
+зелёная точка.
+Между всеми точками растут зелёные линии связи (все пары): соседние узлы соединяются
+дугами по окружности, вместе они образуют круг; дальние хорды слегка изогнуты
+наружу. 3 случайные связи усилены: толще, ярче и с большим выгибом. Затем толщина
+и яркость линий меняются по весам внимания: чем важнее пара, тем жирнее линия; на
+значимых связях появляются числовые подписи весов (вес 0.53 у пары ИСПОРЧЕН–НУЖНО
+смещён внутрь круга).
+Ближе к кругу (чуть правее ЦЕХА, центр выровнен
+с его точкой) появляется блок «Эмбеддинг контекста»; лента всё это время продолжает
+ехать, «?» останавливается ровно под блоком.
+По ходу сцены — две длинные карточки-пояснения с медленным набором текста и долгой
+паузой: «Слой внимания» (после весов, до блока) и «Эмбеддинг контекста» (в момент,
+когда копии точек въезжают в блок). Заголовки карточек печатаются в 3 раза быстрее.
+Анимация агрегации: точки остаются в узлах, а их копии едут по линиям к правой
+точке круга (чем сильнее связь, тем раньше и тем ярче едет копия); соседние узлы —
+по дуге кольца, дальние — по изогнутой хорде. От правой точки
+одна общая горизонтальная линия ведёт в блок эмбеддинга. Все копии въезжают в блок —
+блок вспыхивает зелёным, от него вниз идёт ровно вертикальная зелёная стрелка
+к пустому слоту «?», и в слоте появляется уверенный зелёный токен [КЛЕЙ].
+Финальный текстовый слайд: список крупных сетей, построенных на трансформерах
+(ChatGPT, Claude, Gemini, DeepSeek, Llama, Mistral, Grok).
 
 Запуск (ManimCE, требуется установленный Manim):
     manim -r 1920,1080 --fps 30 06-rnn-i-transformer.py RNNvsTransformer
@@ -305,129 +320,8 @@ class RNNvsTransformer(Scene):
         # --- СЦЕНА 1Г: Проблемы архитектуры LSTM (проблема памяти решена) ---
         self._problems_scene("ПРОБЛЕМЫ АРХИТЕКТУРЫ LSTM", cross_first=True)
 
-        # --- СЦЕНА 2: Трансформер и Внимание ---
-
-        title_tr = Text("ТРАНСФОРМЕР: МЕХАНИЗМ ВНИМАНИЯ", color=ATTN_COLOR, weight=BOLD, font_size=40)
-        title_tr.to_edge(UP)
-        self.play(FadeIn(title_tr))
-
-        # Общий зелёный блок на ВСЕ токены
-        panel = RoundedRectangle(
-            width=13.5, height=8.5, corner_radius=0.5,
-            color=ATTN_COLOR, fill_color=PANEL_COLOR, fill_opacity=0.6
-        )
-        panel.move_to(DOWN * 0.3)
-        panel_lbl = Text("БЛОК SELF-ATTENTION (ПАРАЛЛЕЛЬНО)", color=ATTN_COLOR, weight=BOLD, font_size=32)
-        panel_lbl.move_to(panel.get_top() + DOWN * 0.5)
-
-        attention_block = VGroup(panel, panel_lbl)
-        self.play(FadeIn(attention_block))
-
-        # Токены по кругу внутри блока (каждый подписан; «?» — сверху,
-        # дальше по часовой: КЛЕЙ, ДЛЯ, ЦЕХА, ., ИСПОРЧЕН, НУЖНО, ВЫКИНУТЬ)
-        radius = 2.9
-        center = panel.get_center() + UP * 0.3
-        step_angle = PI / 4
-        angles = [PI / 2 - (k + 1) * step_angle for k in range(7)] + [PI / 2]
-        positions = [
-            center + radius * np.array([np.cos(a), np.sin(a), 0.0])
-            for a in angles
-        ]
-
-        tokens_tr = VGroup()
-        for word, pos in zip(words, positions):
-            box = Rectangle(width=2.0, height=1.0, color=TEXT_COLOR, fill_opacity=0.15)
-            txt = Text(word, color=TEXT_COLOR, weight=BOLD, font_size=30).move_to(box.get_center())
-            g = VGroup(box, txt).move_to(pos)
-            tokens_tr.add(g)
-
-        self.play(LaggedStart(*[FadeIn(t) for t in tokens_tr], lag_ratio=0.15), run_time=1.2)
-        self.wait(0.5)
-
-        # Все пары связаны: тонкие бледно-зелёные линии «каждый видит каждого» (28 рёбер)
-        all_links = VGroup()
-        for i in range(len(tokens_tr)):
-            for j in range(i + 1, len(tokens_tr)):
-                line = Line(
-                    tokens_tr[i].get_center(), tokens_tr[j].get_center(),
-                    color=ATTN_COLOR, stroke_width=1.5, stroke_opacity=0.15
-                )
-                all_links.add(line)
-
-        self.play(Create(all_links, lag_ratio=0.02), run_time=1.5)
-        self.wait(0.5)
-
-        # Анимация внимания: две дуги от слота «?»
-        slot = tokens_tr[7]
-        arc_weak = CurvedArrow(
-            start_point=slot.get_center(),
-            end_point=tokens_tr[2].get_center(),  # ЦЕХА
-            angle=-PI / 4,
-            color=GRAY,
-            stroke_width=2
-        )
-        arc_strong = CurvedArrow(
-            start_point=slot.get_center(),
-            end_point=tokens_tr[0].get_center(),  # КЛЕЙ
-            angle=-PI / 5,
-            color=ATTN_COLOR,
-            stroke_width=9
-        )
-        self.play(Create(arc_weak), Create(arc_strong), run_time=0.8)
-        self.play(Indicate(arc_strong, color=ATTN_COLOR, scale_factor=1.15), run_time=1)
-
-        # Генерация правильного ответа
-        success_word = "КЛЕЙ"
-        success_box = Rectangle(width=2.0, height=1.0, color=ATTN_COLOR, fill_color=ATTN_COLOR, fill_opacity=0.3)
-        success_txt = Text(success_word, color=ATTN_COLOR, weight=BOLD, font_size=32).move_to(success_box.get_center())
-        success_token = VGroup(success_box, success_txt)
-        success_token.move_to(slot.get_center())
-
-        self.play(ReplacementTransform(slot, success_token))
-
-        # Вывод
-        subtitle = Text("КАЖДОЕ СЛОВО ВИДИТ ВСЕ ОСТАЛЬНЫЕ. КОНТЕКСТ НЕ ТЕРЯЕТСЯ.", color=TEXT_COLOR, weight=BOLD, font_size=32)
-        subtitle.next_to(attention_block, DOWN, buff=0.6)
-        self.play(Write(subtitle))
-        self.wait(2.5)
-
-        # Очистка сцены 2
-        self.play(FadeOut(VGroup(
-            title_tr, tokens_tr, success_token, attention_block, all_links, arc_weak, arc_strong, subtitle
-        )))
-
-        # --- СЦЕНА 3: Финал (Сеть и Бум ИИ) ---
-
-        # Рисуем паутину внимания
-        dots = VGroup()
-        for i in range(12):
-            angle = i * (2 * PI / 12)
-            dot = Dot(radius=0.1, color=ATTN_COLOR).move_to(RIGHT * 3.5 * np.cos(angle) + UP * 3.5 * np.sin(angle))
-            dots.add(dot)
-
-        lines = VGroup()
-        for i in range(len(dots)):
-            for j in range(i + 1, len(dots)):
-                line = Line(dots[i].get_center(), dots[j].get_center(), color=ATTN_COLOR, stroke_opacity=0.15)
-                lines.add(line)
-
-        self.play(FadeIn(dots), Create(lines, run_time=2, lag_ratio=0.01))
-
-        # Финальный текст
-        final_text = Text(
-            "НА ТРАНСФОРМЕРАХ СТОЯТ ВСЕ\nСОВРЕМЕННЫЕ ЯЗЫКОВЫЕ МОДЕЛИ (LLM)",
-            color=TEXT_COLOR,
-            weight=BOLD,
-            font_size=48
-        )
-        final_text.set_stroke(color=BLACK, width=8, background=True)  # Чёрная обводка для читаемости поверх линий
-
-        self.play(Write(final_text), run_time=1.5)
-
-        # Эффект пульсации
-        self.play(final_text.animate.scale(1.05), run_time=1, rate_func=there_and_back)
-        self.wait(3)
-        self.play(FadeOut(Group(*self.mobjects)))
+        # --- СЦЕНА 2: Трансформер — круг внимания и эмбеддинг контекста ---
+        self._attention_scene()
 
     def _problems_scene(self, title_text, cross_first=False):
         """Текстовый экран «Проблемы архитектуры …» (сцены 1Б и 1Г).
@@ -467,7 +361,7 @@ class RNNvsTransformer(Scene):
                     line.get_corner(DL) + LEFT * 0.12,
                     line.get_corner(DR) + RIGHT * 0.12,
                     color=TEXT_COLOR, stroke_width=6,
-                )
+                ).shift(UP * line.get_height() * 0.5)  # поднять на полстроки
                 for line in item1_lines
             ])
             self.play(Create(strikes), item1_lines.animate.set_opacity(0.35), run_time=0.8)
@@ -485,9 +379,11 @@ class RNNvsTransformer(Scene):
         )
 
     def _card(self, title_text, body_text,
-              title_color=RNN_COLOR, body_color=TEXT_COLOR):
-        """Карточка-пояснение: экран накрывается чёрным, печатаются заголовок и текст;
-        после паузы всё исчезает и сцена продолжается ровно с места остановки."""
+              title_color=RNN_COLOR, body_color=TEXT_COLOR, hold=2.0,
+              title_time=1.2, body_time=1.8):
+        """Карточка-пояснение: экран накрывается чёрным, заголовок и текст
+        печатаются по глифам (title_time/body_time — скорость набора);
+        после паузы (hold секунд) всё исчезает и сцена продолжается с места остановки."""
         overlay = Rectangle(
             width=config.frame_width + 0.2,
             height=config.frame_height + 0.2,
@@ -499,14 +395,14 @@ class RNNvsTransformer(Scene):
 
         self.play(FadeIn(overlay), run_time=0.3)
         t_glyphs = title_card.family_members_with_points()
-        self.play(LaggedStart(*[FadeIn(g) for g in t_glyphs], lag_ratio=0.06), run_time=1.2)
+        self.play(LaggedStart(*[FadeIn(g) for g in t_glyphs], lag_ratio=0.06), run_time=title_time)
         b_glyphs = body_card.family_members_with_points()
-        self.play(LaggedStart(*[FadeIn(g) for g in b_glyphs], lag_ratio=0.04), run_time=1.8)
+        self.play(LaggedStart(*[FadeIn(g) for g in b_glyphs], lag_ratio=0.04), run_time=body_time)
         # нормализуем сцену: разрозненные глифы прочь, тексты целиком на сцену
         self.remove(*t_glyphs, *b_glyphs)
         self.add(title_card)
         self.add(body_card)
-        self.wait(2)
+        self.wait(hold)
         self.play(FadeOut(overlay), FadeOut(title_card), FadeOut(body_card), run_time=0.7)
 
     def _lstm_scene(self):
@@ -802,15 +698,6 @@ class RNNvsTransformer(Scene):
         # --- Генерация: юнит встаёт над пустым слотом ---
         move_unit(tokens[-1].get_top() + UP * 2.0)
 
-        # Зелёная угловая стрелка: из выходных ворот вниз и влево — в слот слова
-        corner_pt = np.array([out_box.get_center()[0], tokens[-1].get_center()[1], 0.0])
-        gen_v = Line(out_box.get_bottom(), corner_pt, color=ATTN_COLOR, stroke_width=6)
-        gen_h = Arrow(
-            corner_pt, tokens[-1].get_right() + RIGHT * 0.06,
-            color=ATTN_COLOR, stroke_width=6, buff=0.0,
-        )
-        self.play(Create(gen_v), GrowArrow(gen_h), run_time=0.6)
-
         # Важные для генерации слова выходят из памяти в выходные ворота
         important = {"КЛЕЙ", "ИСПОРЧЕН"}
         flying = [(c, w) for c, w in zip(chips, chip_words) if w in important]
@@ -844,8 +731,18 @@ class RNNvsTransformer(Scene):
             "для предсказания следующего слова",
         )
 
-        # Выходные ворота собрали важное — вспышка и верный ответ зелёным
+        # Выходные ворота собрали важное — вспышка зелёным
         self.play(Indicate(out_box, color=ATTN_COLOR, scale_factor=1.06), run_time=0.6)
+
+        # --- Зелёная угловая стрелка: из выходных ворот вниз и влево — в слот слова ---
+        # Рисуем ПОСЛЕ вспышки выходных ворот
+        corner_pt = np.array([out_box.get_center()[0], tokens[-1].get_center()[1], 0.0])
+        gen_v = Line(out_box.get_bottom(), corner_pt, color=ATTN_COLOR, stroke_width=6)
+        gen_h = Arrow(
+            corner_pt, tokens[-1].get_right() + RIGHT * 0.06,
+            color=ATTN_COLOR, stroke_width=6, buff=0.0,
+        )
+        self.play(Create(gen_v), GrowArrow(gen_h), run_time=0.6)
 
         success_box = Rectangle(width=ERR_W, height=1.0, color=ATTN_COLOR,
                                 fill_color=ATTN_COLOR, fill_opacity=0.3)
@@ -886,4 +783,429 @@ class RNNvsTransformer(Scene):
         )
         # страховка: всё уже прозрачно — снимаем со сцены любые «двойные» корни,
         # чтобы чипы (например, ВЫКИНУТЬ) не оставались висеть над следующим экраном
+        self.clear()
+
+    def _attention_scene(self):
+        """Сцена 2: трансформер — лента токенов, круг внимания, эмбеддинг контекста.
+
+        Токены едут справа налево (лишние уходят за левый край). Примерно на 2/3
+        пути слова (кроме «.» и «?») отделяются копиями без чипов и по часовой
+        стрелке рассаживаются по кругу; рядом вспыхивают зелёные точки. Между
+        точками растут связи, толщина и яркость — по весам внимания, значимые
+        подписаны числами (вес 0.53 — внутрь круга). 3 случайные связи усилены:
+        толще, ярче, хорды с большим выгибом. Справа появляется блок
+        «Эмбеддинг контекста»; копии точек едут по своим связям к правой точке
+        круга (хаб) — соседние по дуге кольца, дальние по изогнутой хорде,
+        усиленные — с большим выгибом; от хаба одна линия в блок, блок загорается
+        зелёным — и в пустом слоте «?» появляется зелёный токен [КЛЕЙ].
+        Финал: слайд со списком крупных сетей на трансформерах.
+        """
+        title_tr = Text("ТРАНСФОРМЕР: МЕХАНИЗМ ВНИМАНИЯ", color=ATTN_COLOR,
+                        weight=BOLD, font_size=40)
+        title_tr.to_edge(UP)
+        self.play(FadeIn(title_tr), run_time=0.7)
+
+        words = ["КЛЕЙ", "ДЛЯ", "ЦЕХА", "ИСПОРЧЕН", ".", "НУЖНО", "ВЫКИНУТЬ", "?"]
+        ERR_W = 1.5
+        LANE_Y = -2.0          # уровень ленты (как в сценах RNN/LSTM)
+        TRIGGER_FRAC = 0.55    # доля пути ряда до отделений (при большем прокате
+                               # до блока 2/3 уводят КЛЕЙ за край кадра)
+
+        # Круг: 6 слов без «.», слоты через 60°. Общая спираль слов закручивается
+        # по часовой и посещает слоты в обратном порядке предложения, поэтому
+        # КЛЕЙ встаёт внизу-слева (самый длинный путь), ВЫКИНУТЬ — слева (короткий).
+        # ЦЕХА остаётся ровно справа (угол 0°) — это «правая точка»-хаб.
+        circle_words = ["КЛЕЙ", "ДЛЯ", "ЦЕХА", "ИСПОРЧЕН", "НУЖНО", "ВЫКИНУТЬ"]
+        importance = [0.90, 0.10, 0.20, 0.70, 0.40, 0.35]
+        HUB = 2  # индекс ЦЕХА
+
+        CIRCLE_C = np.array([-1.6, 0.60, 0.0])  # круг сжат и поднят: целиком помещается
+        R = 1.70                                # между заголовком (сверху) и лентой (снизу)
+
+        def slot_angle(k):
+            return (-120 + k * 60) * DEGREES
+
+        def slot_dot_pos(k):
+            return CIRCLE_C + R * np.array([np.cos(slot_angle(k)), np.sin(slot_angle(k)), 0.0])
+
+        RW = R + 0.34  # радиус посадки слов на кольце (до ручной досадки)
+
+        # Ручная досадка слов у слотов: КЛЕЙ и ДЛЯ сдвинуты вдоль кольца вверх
+        # от своей дуги (не перекрывая свои точки), ВЫКИНУТЬ отъехал левее точки,
+        # ЦЕХА поднялся над стволом-стрелкой
+        WORD_OFF = {
+            0: np.array([-0.39, 0.225, 0.0]),  # КЛЕЙ
+            1: np.array([0.39, 0.225, 0.0]),   # ДЛЯ
+            2: np.array([0.28, 0.30, 0.0]),    # ЦЕХА
+            3: np.array([0.00, 0.00, 0.0]),    # ИСПОРЧЕН
+            4: np.array([0.00, 0.00, 0.0]),    # НУЖНО
+            5: np.array([-0.70, 0.00, 0.0]),   # ВЫКИНУТЬ
+        }
+
+        def slot_word_pos(k):
+            u = np.array([np.cos(slot_angle(k)), np.sin(slot_angle(k)), 0.0])
+            return CIRCLE_C + RW * u + WORD_OFF[k]
+
+        def weight(i, j):
+            return round(np.sqrt(importance[i] * importance[j]), 2)
+
+        # Блок эмбеддинга: правее слова ЦЕХА, центр выровнен с точкой ЦЕХА
+        # по высоте — ствол-стрелка ложится ровно горизонтально
+        BLOCK_POS = np.array([2.39, 0.60, 0.0])
+
+        # --- Лента токенов: как в LSTM, стартует прижатой к правому краю ---
+        tokens = VGroup()
+        for word in words:
+            if word == "?":  # пустой слот: бокс без знака вопроса
+                box = Rectangle(width=ERR_W, height=1.0, color=TEXT_COLOR, fill_opacity=0.1)
+                tokens.add(VGroup(box))
+            else:
+                txt = Text(word, color=TEXT_COLOR, weight=BOLD, font_size=28)
+                box = Rectangle(width=txt.width + 0.5, height=1.0, color=TEXT_COLOR, fill_opacity=0.1)
+                txt.move_to(box.get_center())
+                tokens.add(VGroup(box, txt))
+        tokens.arrange(RIGHT, buff=0.25)
+        if tokens.width > 13.5:
+            tokens.scale_to_fit_width(13.5)
+        # старт: правый край ряда за экраном, головные слова уже видны
+        # (стартовый вид ряда фиксирован и не зависит от позиции блока);
+        # финиш: центр «?» ровно под блоком эмбеддинга
+        q_start_x = 10.5
+        tokens.shift(np.array([q_start_x, LANE_Y, 0.0]) - tokens[7].get_center())
+        total_scroll = tokens[7].get_center()[0] - BLOCK_POS[0]
+        scrolled = [0.0]
+
+        def lane_shift(frac):
+            """Очередной бит прокрутки ленты влево (доля полного пути)."""
+            scrolled[0] += frac
+            return tokens.animate.shift(LEFT * total_scroll * frac)
+
+        self.play(lane_shift(0.20), run_time=1.1)
+
+        # --- Отделение слов: ОДНА общая спиральная траектория («поезд» слов) ---
+        # к этому моменту лента прошла ровно 2/3 своего пути
+        self.play(lane_shift(TRIGGER_FRAC - 0.20), run_time=0.8)
+
+        TH_IN, TH_OUT = 235.0, -120.0  # вход в закрутку и финал (слот КЛЕЙ), по часовой
+        N_A, N_B = 140, 520            # сэмплов: прямой участок и спираль
+
+        def spiral_point(theta_deg):
+            """Точка спирали: радиус плавно сходит с выпуклости на радиус кольца."""
+            s = (theta_deg - TH_OUT) / (TH_IN - TH_OUT)
+            rr = RW + 0.16 * (s ** 1.2)
+            aa = theta_deg * DEGREES
+            return CIRCLE_C + rr * np.array([np.cos(aa), np.sin(aa), 0.0])
+
+        S_APPR = np.array([8.4, -1.5, 0.0])  # старт общего пути: справа, чуть выше ленты
+        E_APPR = spiral_point(TH_IN)         # точка входа в закрутку (слева-снизу круга)
+        path_pts = (
+            [S_APPR + (E_APPR - S_APPR) * (i / (N_A - 1)) for i in range(N_A)]
+            + [spiral_point(TH_IN + (TH_OUT - TH_IN) * ((i + 1) / N_B)) for i in range(N_B)]
+        )
+
+        def rail_for(k, start_pt):
+            """Общий путь для слова k: от его позиции на ленте до своего слота —
+            сначала влево по общему прямому участку, затем по часовой спирали;
+            для слов с ручной досадкой — короткий доводящий хвост."""
+            th_k = -120 + 60 * k
+            i_end = N_A - 1 + round(N_B * (TH_IN - th_k) / (TH_IN - TH_OUT))
+            frac = (S_APPR[0] - start_pt[0]) / (S_APPR[0] - E_APPR[0])
+            i_in = int(round(min(1.0, max(0.0, frac)) * (N_A - 1)))
+            pts_k = [start_pt] + path_pts[i_in : i_end + 1]
+            off = WORD_OFF[k]
+            if np.any(off):
+                base = path_pts[i_end]
+                pts_k += [base + off * (t / 8.0) for t in range(1, 9)]
+            rail = VMobject()
+            rail.set_points_as_corners(pts_k)
+            return rail, len(pts_k)
+
+        word_copies = []
+        detach_anims = []
+        dim_anims = []
+        rails = []
+        lens = []
+        for k, word in enumerate(circle_words):
+            idx = words.index(word)
+            start = tokens[idx].get_center()
+            copy = Text(word, color=TEXT_COLOR, weight=BOLD, font_size=18)  # как чипы
+            copy.move_to(start)
+            word_copies.append(copy)
+            self.add(copy)
+            rail, n_pts = rail_for(k, start)
+            rails.append(rail)
+            lens.append(n_pts)
+            dim_anims += [m.animate.set_opacity(0.3) for m in tokens[idx]]
+        n_max = max(lens)
+        for k, copy in enumerate(word_copies):
+            # одинаковая скорость у всех — время пропорционально длине пути:
+            # слова едут «поездом», КЛЕЙ наматывает по окружности дальше всех
+            detach_anims.append(MoveAlongPath(
+                copy, rails[k], rate_func=linear,
+                run_time=3.0 * lens[k] / n_max,
+            ))
+        self.play(*detach_anims, *dim_anims, lane_shift(0.11))
+
+        # --- Зелёные точки на круге ---
+        dots = VGroup()
+        for k in range(len(circle_words)):
+            dots.add(Dot(radius=0.085, color=ATTN_COLOR).move_to(slot_dot_pos(k)))
+        self.play(LaggedStart(*[FadeIn(d, scale=0.5) for d in dots], lag_ratio=0.12),
+                  lane_shift(0.08),
+                  run_time=0.9)
+
+        # --- Связи всех со всеми, затем толщина и подписи весов ---
+        # Соседние узлы — дугами по окружности (образуют круг); дальние — хорды с изгибом наружу.
+        # 3 случайные связи усилены: толще, ярче, и хорды — с большим выгибом.
+        links = VGroup()
+        link_w = {}
+        n_words = len(circle_words)
+
+        def is_adjacent(i, j):
+            return j - i == 1 or (i == 0 and j == n_words - 1)
+
+        # Сначала собираем все пары, чтобы детерминированно выбрать 3 для усиления
+        all_pairs = [(i, j) for i in range(n_words) for j in range(i + 1, n_words)]
+        rng = np.random.default_rng(42)
+        boost_pair_idx = set(rng.choice(len(all_pairs), size=3, replace=False).tolist())
+        # какие пары с хабом усилены — для траекторий копий
+        boosted_hub_pairs = set()
+        for idx in boost_pair_idx:
+            i, j = all_pairs[idx]
+            if i == HUB or j == HUB:
+                boosted_hub_pairs.add((min(i, j), max(i, j)))
+
+        for idx, (i, j) in enumerate(all_pairs):
+            w = weight(i, j)
+            boosted = idx in boost_pair_idx
+            if is_adjacent(i, j):
+                # соседние — дуги по кольцу (60°); усиление только толщиной/яркостью
+                a0 = slot_angle(j) if (i == 0 and j == n_words - 1) else slot_angle(i)
+                line = Arc(radius=R, start_angle=a0, angle=60 * DEGREES,
+                           arc_center=CIRCLE_C, color=ATTN_COLOR,
+                           stroke_width=1.5, stroke_opacity=0.25)
+            else:
+                # хорда — изогнутая дуга, выгнутая наружу круга
+                a, b = slot_dot_pos(i), slot_dot_pos(j)
+                mid = (a + b) / 2
+                d = b - a
+                left_n = np.array([-d[1], d[0], 0.0])  # нормаль влево от хорды
+                sign = 1.0 if np.dot(mid - CIRCLE_C, left_n) > 0 else -1.0
+                # усиленные — с большим выгибом
+                angle_mag = 0.45 if boosted else 0.22
+                line = ArcBetweenPoints(a, b, angle=sign * angle_mag,
+                                        color=ATTN_COLOR,
+                                        stroke_width=1.5, stroke_opacity=0.25)
+            links.add(line)
+            link_w[line] = w
+        self.play(Create(links, lag_ratio=0.03),
+                  lane_shift(0.07),
+                  run_time=1.0)
+
+        thick_anims = []
+        for idx, (line, w) in enumerate(link_w.items()):
+            boosted = idx in boost_pair_idx
+            extra = 6 if boosted else 0
+            thick_anims.append(line.animate.set_stroke(
+                width=2 + 11 * w + extra,
+                opacity=min(0.95, 0.25 + 0.55 * w + (0.18 if extra else 0))))
+        labels = VGroup()
+        for i in range(n_words):
+            for j in range(i + 1, n_words):
+                w = weight(i, j)
+                if w < 0.40:
+                    continue
+                if is_adjacent(i, j):
+                    # подпись дуги — снаружи кольца на середине дуги
+                    # ИСКЛЮЧЕНИЕ: вес 0.53 (ИСПОРЧЕН–НУЖНО) — внутрь круга
+                    if i == 0 and j == n_words - 1:
+                        m = slot_angle(j) + 30 * DEGREES
+                    else:
+                        m = slot_angle(i) + 30 * DEGREES
+                    # 0.53 — пара (3,4) ИСПОРЧЕН–НУЖНО: внутрь круга
+                    if abs(w - 0.53) < 1e-9:
+                        rad = R - 0.42
+                    else:
+                        rad = R + 0.17
+                    pos = CIRCLE_C + rad * np.array([np.cos(m), np.sin(m), 0.0])
+                else:
+                    a, b = slot_dot_pos(i), slot_dot_pos(j)
+                    mid = (a + b) / 2
+                    chord = b - a
+                    perp = np.array([-chord[1], chord[0], 0.0])
+                    perp /= np.linalg.norm(perp)
+                    if np.dot(mid - CIRCLE_C, perp) < 0:
+                        perp = -perp  # наружу круга, поверх лёгкого изгиба хорды
+                    pos = mid + perp * 0.26
+                lbl = Text(f"{w:.2f}", color=ATTN_COLOR, font_size=18)
+                lbl.move_to(pos)
+                labels.add(lbl)
+        self.play(*thick_anims, FadeIn(labels),
+                  lane_shift(0.05),
+                  run_time=1.0)
+
+        # --- Карточка «Слой внимания»: связи нарисованы, блока ещё нет ---
+        self._card(
+            "Слой внимания",
+            "Это аналитический центр. Здесь слова «общаются»\n"
+            "друг с другом. Каждое слово смотрит на все\n"
+            "остальные слова в контексте и решает, какие из\n"
+            "них важны для понимания смысла. Слово «клей»\n"
+            "посмотрит на слово «выкинуть» или «нужно», чтобы\n"
+            "понять свое точное значение. Таких центров в\n"
+            "модели могут быть десятки или даже сотни.",
+            title_color=ATTN_COLOR, hold=3.5,
+            title_time=2.1, body_time=13.6,
+        )
+
+        # --- Блок «Эмбеддинг контекста» справа ---
+        block_box = Rectangle(width=2.4, height=1.3, color=ATTN_COLOR,
+                              fill_color=PANEL_COLOR, fill_opacity=0.5)
+        block_lbl = Text("ЭМБЕДДИНГ\nКОНТЕКСТА", color=ATTN_COLOR, weight=BOLD,
+                         font_size=22).move_to(block_box.get_center())
+        block_grp = VGroup(block_box, block_lbl).move_to(BLOCK_POS)
+        self.play(FadeIn(block_grp),
+                  lane_shift(1.0 - scrolled[0]),  # финальный бит: «?» точно под блоком
+                  run_time=0.8)
+
+        # --- Копии точек едут по связям к правой точке (хабу) ---
+        # Сами точки остаются в узлах; по линиям отправляются их копии.
+        # Каскад: чем сильнее связь с хабом, тем раньше копия отправляется
+        # и тем она ярче — яркость наследуется от толщины линии связи.
+        hub_pos = slot_dot_pos(HUB)
+        order = sorted(
+            (k for k in range(len(circle_words)) if k != HUB),
+            key=lambda k: -weight(k, HUB),
+        )
+        w_max = max(weight(k, HUB) for k in order)
+
+        def ride_path(k):
+            """Траектория копии: ровно по своей нарисованной связи к хабу —
+            соседний узел по дуге кольца, дальний по изогнутой хорде.
+            Для усиленных связей — с большим выгибом (0.45 вместо 0.22)."""
+            a = dots[k].get_center()
+            if is_adjacent(min(k, HUB), max(k, HUB)):
+                alpha = slot_angle(k)
+                delta = ((slot_angle(HUB) - alpha + PI) % TAU) - PI
+                return Arc(radius=R, start_angle=alpha, angle=delta,
+                           arc_center=CIRCLE_C)
+            mid = (a + hub_pos) / 2
+            d = hub_pos - a
+            left_n = np.array([-d[1], d[0], 0.0])
+            sign = 1.0 if np.dot(mid - CIRCLE_C, left_n) > 0 else -1.0
+            boosted = (min(k, HUB), max(k, HUB)) in boosted_hub_pairs
+            angle_mag = 0.45 if boosted else 0.22
+            return ArcBetweenPoints(a, hub_pos, angle=sign * angle_mag)
+
+        riders = VGroup()
+        for k in range(len(circle_words)):
+            d = Dot(radius=0.085, color=ATTN_COLOR).move_to(dots[k].get_center())
+            d.set_z_index(5)
+            if k != HUB:
+                d.set_opacity(0.35 + 0.65 * (weight(k, HUB) / w_max))
+            riders.add(d)
+        self.add(riders)
+        self.play(
+            LaggedStart(
+                *[MoveAlongPath(riders[k], ride_path(k),
+                                rate_func=smooth) for k in order],
+                lag_ratio=0.25,
+            ),
+            run_time=1.6,
+        )
+
+        # --- От хаба одна общая линия в блок; все копии уезжают по ней ---
+        trunk = Arrow(hub_pos, block_box.get_left() + LEFT * 0.04,
+                      color=ATTN_COLOR, stroke_width=6, buff=0.0, tip_length=0.2)
+        self.play(GrowArrow(trunk), run_time=0.45)
+        absorb_anims = [
+            d.animate.move_to(block_box.get_center()).scale(0.3).set_opacity(0)
+            for d in riders
+        ]
+        self.play(*absorb_anims, run_time=0.8)
+
+        # --- Карточка «Эмбеддинг контекста»: копии точек въехали в блок ---
+        self._card(
+            "Эмбеддинг контекста",
+            "Отражает смысл конкретного слова с учетом всех\n"
+            "окружающих его слов. Например, для слова «плата»\n"
+            "он будет совершенно разным в сочетаниях\n"
+            "«материнская плата» и «заработная плата». Проходя\n"
+            "через каждый этаж с трансформером, он все больше\n"
+            "уточняется, впитывая в себя дополнительные\n"
+            "значения. И на самом последнем этаже он содержит\n"
+            "в себе смысл вообще всего текста. Именно его модель\n"
+            "и использует, чтобы предсказать следующее слово.",
+            title_color=ATTN_COLOR, hold=4,
+            title_time=2.1, body_time=15.2,
+        )
+
+        # --- Блок загорается зелёным ---
+        self.play(
+            Indicate(block_box, color=ATTN_COLOR, scale_factor=1.06),
+            block_box.animate.set_fill(PANEL_COLOR, opacity=0.75),
+            run_time=0.7,
+        )
+
+        # --- Зелёная стрелка к пустой коробочке и токен [КЛЕЙ] ---
+        q_token = tokens[7]
+        gen_arrow = Arrow(
+            block_box.get_bottom(), q_token.get_top() + UP * 0.06,
+            color=ATTN_COLOR, stroke_width=6, buff=0.0, tip_length=0.2,
+        )
+        self.play(Create(gen_arrow), run_time=0.5)
+
+        success_box = Rectangle(width=q_token[0].width, height=1.0,
+                                color=ATTN_COLOR, fill_color=ATTN_COLOR, fill_opacity=0.3)
+        success_txt = Text("КЛЕЙ", color=ATTN_COLOR, weight=BOLD, font_size=28)
+        success_txt.move_to(success_box.get_center())
+        success_token = VGroup(success_box, success_txt)
+        success_token.move_to(q_token.get_center())
+
+        self.play(ReplacementTransform(q_token, success_token), run_time=0.7)
+        self.wait(1.2)
+
+        # --- Очистка сцены трансформера: всё гаснет перед финальным слайдом ---
+        self.play(
+            FadeOut(title_tr),
+            FadeOut(tokens),
+            FadeOut(VGroup(*word_copies)),
+            FadeOut(dots),
+            FadeOut(riders),
+            FadeOut(links),
+            FadeOut(labels),
+            FadeOut(block_grp),
+            FadeOut(trunk),
+            FadeOut(gen_arrow),
+            FadeOut(success_token),
+            run_time=1,
+        )
+        self.wait(0.3)
+
+        # --- Финальный слайд (отдельная сцена на тёмном фоне): крупные сети на трансформерах ---
+        final_title = Text("НА ТРАНСФОРМЕРАХ СТОЯТ", color=ATTN_COLOR,
+                           weight=BOLD, font_size=40).to_edge(UP)
+        models = [
+            "ChatGPT / GPT-4o (OpenAI)",
+            "Claude / Sonnet / Opus (Anthropic)",
+            "Gemini (Google)",
+            "DeepSeek (DeepSeek AI)",
+            "Llama (Meta)",
+            "Mistral (Mistral AI)",
+            "Grok (xAI)",
+        ]
+        final_items = VGroup(*[
+            Text(f"▸ {m}", color=TEXT_COLOR, font_size=28)
+            for m in models
+        ])
+        final_items.arrange(DOWN, aligned_edge=LEFT, buff=0.35)
+        final_items.next_to(final_title, DOWN, buff=0.8)
+        final_group = VGroup(final_title, final_items)
+
+        self.play(FadeIn(final_title), run_time=0.5)
+        self.play(LaggedStart(*[FadeIn(item, shift=RIGHT * 0.3)
+                                for item in final_items], lag_ratio=0.15),
+                  run_time=1.5)
+        self.wait(2.0)
+        self.play(FadeOut(final_group), run_time=0.6)
         self.clear()
